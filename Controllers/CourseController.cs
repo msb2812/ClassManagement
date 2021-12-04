@@ -188,6 +188,7 @@ namespace ClassManagement.Controllers
         public ActionResult Cancel(CourseRegistration item)
         {
            // Perform edit operation...and set statusid as 1 (Cancelled)     
+           // Fetch userId and courseId to cancel subscription
 
             return RedirectToAction("Subscription");
         }
