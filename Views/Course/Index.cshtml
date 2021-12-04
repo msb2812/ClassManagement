@@ -1,0 +1,114 @@
+﻿@model IEnumerable<ClassManagement.Models.Course>
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var role1 = Session["Admin"] as string;
+    var role2 = Session["User"] as string;
+
+    var columnName = (role1 == "Admin") ? "Actions" : "ApplyForCourse";
+}
+
+
+<h2>Course List</h2>
+
+<span id="message" style="display:none"> @TempData["Message"] </span>
+
+@using (Html.BeginForm("Search", "Course", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <label> Search </label>
+                        <input type="text" class="form-control" id="search" name="search" style="margin-right: 10px;" />
+                        <input type="submit" class="btn btn-success" value="Search" />
+                        @if(role1 == "Admin")
+                        {
+                             @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary", @style = "margin-left: 10px;" })
+                        }
+
+                        @Html.ActionLink("Refresh", "Index", null, new { @class = "btn btn-primary",@style = "margin-left: 10px;" })
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<table class="table table-hover">
+    <tr class="btn-primary text-center">
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.Fees)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.Duration) (Months)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.Capacity)
+        </th>
+          <th class="text-center"> @columnName </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr class="text-center">
+    <td>
+        @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Fees)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Duration)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Capacity)
+    </td>
+    @if (role1 == "Admin")
+    {
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new {@class = "js-delete" })
+        </td>
+    }
+    else
+    {   
+<td>
+    @Html.ActionLink("Apply", "ApplyForCourse",null, new { id = item.Id },  new { @class = "btn btn-sm btn-success" })
+</td>
+
+    }
+</tr>
+    }
+
+</table>
+
+@section Scripts
+{
+    <script>
+
+        $(document).ready(function () {
+            var msg = $("#message").text();
+            if (msg !== ''){
+                toastr.success(msg);
+            }
+
+            $('.js-delete').on('click', function () {
+                var btn = $(this);
+                var _id = btn.data('id');
+                alert(_id);
+            })
+
+        });
+
+
+    </script>
+}
