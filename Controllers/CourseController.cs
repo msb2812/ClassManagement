@@ -44,7 +44,7 @@ namespace ClassManagement.Controllers
                 _context.Entry(course).State = EntityState.Modified;    // Update
 
             _context.SaveChanges();
-            TempData["Message"] = "Saved Succesfully !";
+            TempData["SuccessMessage"] = "Saved Succesfully !";
             return RedirectToAction("Index");
         }
 
@@ -59,8 +59,9 @@ namespace ClassManagement.Controllers
                 return HttpNotFound();
 
             _context.Courses.Remove(existingCourse);
-            _context.SaveChanges();
 
+            _context.SaveChanges();
+            TempData["SuccessMessage"] = "Record Deleted Succesfully !";
             return RedirectToAction("Index");
         }
 

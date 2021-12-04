@@ -6,8 +6,10 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/alertifyjs/alertify.min.css" rel="stylesheet" />
+    <link href="~/Content/alertifyjs/themes/default.min.css" rel="stylesheet" />
 
-    @{ 
+    @{
         var role1 = Session["Admin"] as string;
         var role2 = Session["User"] as string;
     }
@@ -62,6 +64,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/alertify.min.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
